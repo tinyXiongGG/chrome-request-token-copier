@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="Request Token Copier icon">
+  <defs>
+    <linearGradient id="bg" x1="22" y1="16" x2="106" y2="116" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#2f7df4"/>
+      <stop offset="1" stop-color="#13a08a"/>
+    </linearGradient>
+    <linearGradient id="panel" x1="36" y1="30" x2="92" y2="98" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#eef6ff"/>
+    </linearGradient>
+  </defs>
+  <rect width="128" height="128" rx="28" fill="url(#bg)"/>
+  <path d="M34 31h60c6.6 0 12 5.4 12 12v42c0 6.6-5.4 12-12 12H34c-6.6 0-12-5.4-12-12V43c0-6.6 5.4-12 12-12Z" fill="#0f335f" opacity=".18"/>
+  <path d="M34 27h60c6.6 0 12 5.4 12 12v42c0 6.6-5.4 12-12 12H34c-6.6 0-12-5.4-12-12V39c0-6.6 5.4-12 12-12Z" fill="url(#panel)"/>
+  <path d="M36 45h38" stroke="#1f5fbf" stroke-width="8" stroke-linecap="round"/>
+  <path d="M36 63h24" stroke="#13a08a" stroke-width="8" stroke-linecap="round"/>
+  <path d="M36 81h18" stroke="#93a4b8" stroke-width="8" stroke-linecap="round"/>
+  <path d="M82.8 73.4a15.7 15.7 0 1 1 7.8-7.8L108 83v13H95V88h-8v-7.1l-4.2-7.5Z" fill="#f8b84e"/>
+  <circle cx="69" cy="59" r="6" fill="#ffffff"/>
+  <path d="M82.8 73.4 108 98" stroke="#d8871f" stroke-width="5" stroke-linecap="round"/>
+</svg>
