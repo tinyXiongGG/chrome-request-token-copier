@@ -27,12 +27,13 @@
         <input id="captureAllHeadersInput" type="checkbox">
         捕获全部请求头
       </label>
-      <p class="hint">默认只保存 Authorization、Cookie 和常见 token 头。</p>
+      <p class="hint">URL 过滤会实时作用于新请求和当前列表。默认只保存 Authorization、Cookie 和常见 token 头。</p>
     </section>
 
     <section class="actions">
       <button id="refreshButton" type="button">刷新</button>
       <button id="clearButton" type="button">清空记录</button>
+      <span id="resultMeta" class="result-meta"></span>
     </section>
 
     <main id="requestList" class="request-list"></main>

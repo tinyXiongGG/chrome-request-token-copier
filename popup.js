@@ -6,8 +6,10 @@ const requestList = document.querySelector("#requestList");
 const requestTemplate = document.querySelector("#requestTemplate");
 const refreshButton = document.querySelector("#refreshButton");
 const clearButton = document.querySelector("#clearButton");
+const resultMeta = document.querySelector("#resultMeta");
 
 let currentRequests = [];
+let currentUrlFilter = "";
 
 function formatTime(isoTime) {
   return new Intl.DateTimeFormat("zh-CN", {
@@ -59,6 +61,16 @@ function toCurl(record) {
   return lines.join(" \\\n");
 }
 
+function getFilteredRequests() {
+  const filter = currentUrlFilter.trim();
+
+  if (!filter) {
+    return currentRequests;
+  }
+
+  return currentRequests.filter((record) => record.url.includes(filter));
+}
+
 async function copyText(text, button) {
   await navigator.clipboard.writeText(text);
   const originalText = button.textContent;
@@ -71,6 +83,11 @@ async function copyText(text, button) {
 function renderRequests() {
   requestList.replaceChildren();
 
+  const visibleRequests = getFilteredRequests();
+  resultMeta.textContent = currentUrlFilter
+    ? `${visibleRequests.length}/${currentRequests.length}`
+    : `${currentRequests.length}`;
+
   if (currentRequests.length === 0) {
     const empty = document.createElement("div");
     empty.className = "empty";
@@ -79,7 +96,15 @@ function renderRequests() {
     return;
   }
 
-  for (const record of currentRequests) {
+  if (visibleRequests.length === 0) {
+    const empty = document.createElement("div");
+    empty.className = "empty";
+    empty.textContent = "没有匹配当前 URL 过滤的记录";
+    requestList.append(empty);
+    return;
+  }
+
+  for (const record of visibleRequests) {
     const fragment = requestTemplate.content.cloneNode(true);
     const card = fragment.querySelector(".request-card");
     const method = fragment.querySelector(".method");
@@ -138,6 +163,7 @@ async function loadState() {
 
   enabledInput.checked = state.enabled;
   urlFilterInput.value = state.urlFilter;
+  currentUrlFilter = state.urlFilter;
   captureAllHeadersInput.checked = state.captureAllHeaders;
   currentRequests = state.capturedRequests;
   statusText.textContent = state.enabled ? "正在捕获" : "未开启";
@@ -149,8 +175,10 @@ enabledInput.addEventListener("change", async () => {
   statusText.textContent = enabledInput.checked ? "正在捕获" : "未开启";
 });
 
-urlFilterInput.addEventListener("change", () => {
-  chrome.storage.local.set({ urlFilter: urlFilterInput.value.trim() });
+urlFilterInput.addEventListener("input", () => {
+  currentUrlFilter = urlFilterInput.value.trim();
+  renderRequests();
+  chrome.storage.local.set({ urlFilter: currentUrlFilter });
 });
 
 captureAllHeadersInput.addEventListener("change", () => {
@@ -166,12 +194,22 @@ clearButton.addEventListener("click", async () => {
 });
 
 chrome.storage.onChanged.addListener((changes, areaName) => {
-  if (areaName !== "local" || !changes.capturedRequests) {
+  if (areaName !== "local") {
     return;
   }
 
-  currentRequests = changes.capturedRequests.newValue || [];
-  renderRequests();
+  if (changes.urlFilter && changes.urlFilter.newValue !== currentUrlFilter) {
+    currentUrlFilter = changes.urlFilter.newValue || "";
+    urlFilterInput.value = currentUrlFilter;
+  }
+
+  if (changes.capturedRequests) {
+    currentRequests = changes.capturedRequests.newValue || [];
+  }
+
+  if (changes.urlFilter || changes.capturedRequests) {
+    renderRequests();
+  }
 });
 
 loadState();

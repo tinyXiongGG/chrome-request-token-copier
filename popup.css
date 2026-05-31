@@ -131,9 +131,16 @@ p {
 }
 
 .actions {
+  align-items: center;
   display: flex;
   gap: 8px;
   padding: 0 16px 12px;
+}
+
+.result-meta {
+  color: #667085;
+  font-size: 12px;
+  margin-left: auto;
 }
 
 .request-list {
