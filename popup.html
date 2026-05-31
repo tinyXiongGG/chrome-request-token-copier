@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Request Token Copier</title>
+    <link rel="stylesheet" href="popup.css">
+  </head>
+  <body>
+    <header class="toolbar">
+      <div>
+        <h1>Request Token Copier</h1>
+        <p id="statusText">未开启</p>
+      </div>
+      <label class="switch" title="开启或暂停捕获">
+        <input id="enabledInput" type="checkbox">
+        <span></span>
+      </label>
+    </header>
+
+    <section class="settings">
+      <label>
+        URL 过滤
+        <input id="urlFilterInput" type="text" placeholder="例如 api.example.com 或 /api/">
+      </label>
+      <label class="checkline">
+        <input id="captureAllHeadersInput" type="checkbox">
+        捕获全部请求头
+      </label>
+      <p class="hint">默认只保存 Authorization、Cookie 和常见 token 头。</p>
+    </section>
+
+    <section class="actions">
+      <button id="refreshButton" type="button">刷新</button>
+      <button id="clearButton" type="button">清空记录</button>
+    </section>
+
+    <main id="requestList" class="request-list"></main>
+
+    <template id="requestTemplate">
+      <article class="request-card">
+        <div class="request-head">
+          <span class="method"></span>
+          <span class="time"></span>
+        </div>
+        <div class="url"></div>
+        <div class="button-row">
+          <button class="copy-headers" type="button">复制头</button>
+          <button class="copy-curl" type="button">复制 cURL</button>
+        </div>
+        <div class="headers"></div>
+      </article>
+    </template>
+
+    <script src="popup.js"></script>
+  </body>
+</html>

@@ -1,0 +1,21 @@
+{
+  "manifest_version": 3,
+  "name": "Request Token Copier",
+  "version": "0.1.0",
+  "description": "Capture selected request headers locally and copy Authorization, Cookie, token headers, or cURL.",
+  "permissions": [
+    "clipboardWrite",
+    "storage",
+    "webRequest"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Request Token Copier"
+  }
+}
